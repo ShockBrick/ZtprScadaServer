@@ -3,14 +3,13 @@
 #include <servergui.h>
 #include <serverservice.h>
 #include <senddata.h>
-
+#include <signalgenerator.h>
+#include <QApplication>
 int main(int argc, char *argv[])
 {
-    QCoreApplication a(argc, argv);
-
+    QApplication app(argc, argv);
     ServerApp ServerApplication;
-
-    return a.exec();
+    return app.exec();
 }
 
 

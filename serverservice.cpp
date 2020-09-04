@@ -43,6 +43,7 @@ ServerService::ServerService()
   //    !!!!!!!!!!!!!!!!!!!!!!!!!
 }
 
+
 void ServerService::sessionOpened()
 {
     //std::cout<<"Jestem w sessionOpened\n";
@@ -93,11 +94,22 @@ void ServerService::sessionOpened()
 
 void ServerService::sendDataVector()
 {
+
     QByteArray block;
     QDataStream out(&block, QIODevice::WriteOnly);
+
     out.setVersion(QDataStream::Qt_5_10);
     //std::cout<<"Jestem przed <<vSend \n";
+  vSend = sG.getVector();
+//    std::cout<<"vSend size:  "<<vSend.size()<<std::endl;
+    sG.updateTheSignal();
+//    std::cout<<"vSend size:  "<<vSend.size()<<std::endl;
+    for (auto pojemnik:vSend)
+    {
+        std::cout<<"Wartosc: "<<pojemnik.getValue()<<"     "<<"Czas: "<<pojemnik.getTimeStamp()<<std::endl;
+    }
     out << vSend;
+
 //std::cout<<"Jestem po \n";
     QTcpSocket *clientConnection = tcpServer->nextPendingConnection();
     connect(clientConnection, &QAbstractSocket::disconnected,

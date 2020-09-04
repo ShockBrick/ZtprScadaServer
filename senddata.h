@@ -6,36 +6,50 @@
 #include <QtNetwork>
 #include <string>
 #include <iostream>
-
+/** Szablon klasy. Klasa ta służy do przechowywania próbki danych.**/
 template <typename T>
 class SendData
 {
 
-    double timeStamp{0};
-    T value{0};
+    double timeStamp{0};/**< \brief Zmienna timeStamp oznacza czas pobrania próbki..*/
+    T value{0};/**< \brief Zmienna value oznacza wartość danej próbki.*/
 
 public:
+    /** \brief Konstruktor wpisujący w pola timeStamp i value argumenty funkcji.
+     *@param v Jest zapisywany do zmiennej value.
+     *@param tS Jest zapisywany do zmiennej timeStamp.
+     */
     SendData(T v, double tS)
     {
         timeStamp={tS};
         value={v};
     };
 
-    //get
+    /** \brief Funkcja zwraca wartość zmiennej timeStamp.
+     *
+     */
     double getTimeStamp() const
     {
         return timeStamp;
     };
+    /** \brief Funkcja zwraca wartość zmiennej value.
+     *
+     */
     T getValue() const
     {
         return value;
     };
 
-    //set
+    /** \brief Funkcja ustawia wartość zmiennej timeStamp.
+     * @param a Zmienna timeStamp=a
+     */
     void setTimeStamp(double a)
     {
         timeStamp = a;
     };
+    /** \brief Funkcja ustawia wartość zmiennej value.
+     * @param a Zmienna value=a
+     */
     void setValue(T a)
     {
         value = a;
@@ -48,12 +62,10 @@ public:
 template<class TT>
 QDataStream &operator<<(QDataStream &stream, const std::vector<TT> &val)
 {
-    std::cout<<"Jestem w << vectora \n";
     stream << static_cast<quint32>(val.size());
     for(auto& singleVal : val)
-    stream << singleVal;
+        stream << singleVal;
     return stream;
-
 }
 
 template<class TT>
@@ -65,8 +77,8 @@ QDataStream &operator>>(QDataStream &stream, std::vector<TT> &val)
     val.reserve(vecSize);
     TT tempVal;
     while(vecSize--){
-    stream >> tempVal;
-    val.push_back(tempVal);
+        stream >> tempVal;
+        val.push_back(tempVal);
     }
     return stream;
 }
@@ -74,16 +86,9 @@ QDataStream &operator>>(QDataStream &stream, std::vector<TT> &val)
 template<class TT>
 QDataStream &operator<<(QDataStream &stream, const SendData<TT> &val)
 {
-    std::cout<<"Jestem w << wartosciach\n";
     auto localValue =val.getValue();
     auto localTimeStamp =val.getTimeStamp();
-
-    std::cout<<"Jestem w << vwartosciach /n";
-    std::cout<<"Wartosc: "<<localValue<<std::endl;
-    std::cout<<"Czas: "<<localTimeStamp<<std::endl;
-
     return stream << localValue <<localTimeStamp;
-
 }
 
 template<class TT>
@@ -91,16 +96,9 @@ QDataStream &operator>>(QDataStream &stream, SendData<TT> &val)
 {
     auto localValue = val.getValue();
     auto localTimeStamp = val.getTimeStamp();
-
     stream >> localValue >> localTimeStamp ;
     val.setValue(localValue);
     val.setTimeStamp(localTimeStamp);
     return stream;
 }
-
-
-
-
-
-
 #endif // SENDDATA_H

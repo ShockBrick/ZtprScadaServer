@@ -18,7 +18,8 @@ SOURCES += \
         main.cpp \
         serverapp.cpp \
         servergui.cpp \
-        serverservice.cpp
+        serverservice.cpp \
+        signalgenerator.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -29,6 +30,8 @@ HEADERS += \
     senddata.h \
     serverapp.h \
     servergui.h \
-    serverservice.h
+    serverservice.h \
+    signalgenerator.h
+
 
 QT += widgets quick
